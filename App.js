@@ -1,20 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-export default function App() {
+import ListNotesScreen from "./screens/ListNotesScreen";
+import {NotesProvider} from "./src/context/NotesContext";
+import CreateNoteScreen from "./screens/CreateNoteScreen";
+import ShowNoteScreen from "./screens/ShowNoteScreen";
+import EditNoteScreen from "./screens/EditNoteScreen";
+
+const Stack = createNativeStackNavigator();
+
+
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="List Notes"
+          component={ListNotesScreen}
+          options={{
+            headerTitleAlign: "center",
+            title: "All Notes",
+          }}
+        />
+        <Stack.Screen name="create" 
+        component={CreateNoteScreen} 
+        options={{
+          headerTitleAlign:"center",
+          title:"Create A Note"
+        }}
+        />
+             <Stack.Screen name="shownotes" 
+        component={ShowNoteScreen} 
+        options={{
+          headerTitleAlign:"center",
+          title:"Notes Details"
+        }}
+        />
+      <Stack.Screen name="editnotes" 
+        component={EditNoteScreen} 
+        options={{
+          headerTitleAlign:"center",
+          title:"Update Notes"
+        }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default () => {
+  return (
+    <NotesProvider>
+      <App />
+    </NotesProvider>
+  );
+};
